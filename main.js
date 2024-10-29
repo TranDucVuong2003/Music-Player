@@ -31,42 +31,42 @@ const app = {
             name: 'Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/Noi_nay_co_anh.jpg',
+            image: './assets/img/noi_nay_co_anh.jpg',
         }, {
             name: 'Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/Noi_nay_co_anh.jpg',
+            image: './assets/img/noi_nay_co_anh.jpg',
         }, {
             name: 'Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/Noi_nay_co_anh.jpg',
+            image: './assets/img/noi_nay_co_anh.jpg',
         }, {
             name: 'Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/Noi_nay_co_anh.jpg',
+            image: './assets/img/noi_nay_co_anh.jpg',
         }, {
             name: 'Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/Noi_nay_co_anh.jpg',
+            image: './assets/img/noi_nay_co_anh.jpg',
         }, {
             name: 'Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/Noi_nay_co_anh.jpg',
+            image: './assets/img/noi_nay_co_anh.jpg',
         }, {
             name: 'Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/Noi_nay_co_anh.jpg',
+            image: './assets/img/noi_nay_co_anh.jpg',
         }, {
             name: 'Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/Noi_nay_co_anh.jpg',
+            image: './assets/img/noi_nay_co_anh.jpg',
         }
     ],
 
