@@ -111,7 +111,7 @@ const app = {
             const scrollTop = window.scrollY || document.documentElement.scrollTop;
             const newCdWidth = cdWidth - scrollTop;
 
-            console.log(newCdWidth);
+           
 
             cd.style.width = newCdWidth > 0 ? newCdWidth + 'px' : 0;
             cd.style.opacity = newCdWidth / cdWidth;
@@ -121,28 +121,43 @@ const app = {
         //Xử lí khi click vào nút play
         playBtn.onclick = function () {
             if (_this.isPlaying) {
-
-                _this.isPlaying = false;
                 audio.pause();
-                player.classList.remove("playing");
+            
             } else {
 
-                _this.isPlaying = true;
                 audio.play();
-                player.classList.add("playing");
             }
+        }
+        
+        //Khi song được play
+        audio.onplay = function(){
+            _this.isPlaying = true;
+            player.classList.add("playing");
+            
+        }
+        
+        //Khi song được pause
+        audio.onpause = function(){
+            _this.isPlaying = false;
+            player.classList.remove("playing");
+            
+        }
+
+        //Khi tua bài hát
+        audio.ontimeupdate = function(){
+            console.log('current time: ', audio.currentTime);
+            
         }
     },
 
     loadCurrentSong: function () {
-
 
         heading.textContent = this.currentSong.name;
         cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
         audio.src = this.currentSong.path;
         audio.load();
 
-        console.log(heading, cdThumb, audio);
+        
     },
 
 
