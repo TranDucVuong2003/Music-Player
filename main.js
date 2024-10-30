@@ -121,7 +121,7 @@ const app = {
 
         cdThumbAnimate.pause();
 
-        console.log(cdThumbAnimate);
+        // console.log(cdThumbAnimate);
         
 
 
@@ -194,9 +194,8 @@ const app = {
 
         //Xử lí khi onclick vào random
         randomBtn.onclick = function(){
-            currentIndex = Math.random()*
-
-            this.loadCurrentSong()
+            _this.randomSong();
+            audio.play();
         }
     },
 
@@ -211,7 +210,7 @@ const app = {
     //Nút next song
     nextSong: function (){
         this.currentIndex++
-        console.log('check',this.currentIndex , this.songs.length - 1);
+        // console.log('check',this.currentIndex , this.songs.length - 1);
         
         if(this.currentIndex >= this.songs.length ){
             this.currentIndex = 0;
@@ -223,7 +222,7 @@ const app = {
     //Nút pre song
     preSong: function (){
         this.currentIndex--
-        console.log('check',this.currentIndex , this.songs.length - 1);
+        // console.log('check',this.currentIndex , this.songs.length - 1);
         
         if(this.currentIndex == -1 ){
             this.currentIndex = this.songs.length -1 ;
@@ -232,6 +231,14 @@ const app = {
         this.loadCurrentSong()
     }, 
 
+    //Nút random song
+    randomSong: function(){
+        this.currentIndex = Math.floor( Math.random()*this.songs.length );
+
+        console.log('random currentIndex: ', this.currentIndex,this.songs.length );
+        
+        this.loadCurrentSong();
+    },
     start: function () {
         //Định nghĩa các thuộc tính cho object
         this.defineProperties();
