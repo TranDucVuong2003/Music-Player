@@ -20,6 +20,7 @@ const cdThumb = $('.cd-thumb');
 const audio = $('#audio');
 const cd = $('.cd');
 const playBtn = $('.btn-toggle-play');
+const progress = $('#progress')
 
 
 const app = {
@@ -143,10 +144,18 @@ const app = {
             
         }
 
-        //Khi tua bài hát
+        //Thanh progress chạy khi bài hát chạy
         audio.ontimeupdate = function(){
-            console.log('current time: ', audio.currentTime);
-            
+            if(audio.duration){
+                const progressPercent = Math.floor(audio.currentTime / audio.duration * 100)
+                progress.value = progressPercent
+            }
+        }
+
+        //Xử lí khi tua bài hát
+        progress.onchange = function(e){
+            const seekTime = audio.duration  / 100 * e.target.value ;
+            audio.currentTime = seekTime;
         }
     },
 
