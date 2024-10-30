@@ -21,6 +21,9 @@ const audio = $('#audio');
 const cd = $('.cd');
 const playBtn = $('.btn-toggle-play');
 const progress = $('#progress')
+const nextBtn = $('.btn-next');
+const preBtn = $('.btn-prev');
+const randomBtn = $('.btn-random')
 
 
 const app = {
@@ -29,42 +32,42 @@ const app = {
     isPlaying: false,
     songs: [
         {
-            name: 'Nơi này có anh',
+            name: '1 Nơi này có Vương',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
             image: './assets/img/noi_nay_co_anh.jpg',
         }, {
-            name: 'Nơi này có anh',
+            name: '2 Đừng làm trái tym Vương đau',
+            singer: 'Sơn Tùng M-TP',
+            path: './assets/music/dung_lam_trai_tym_anh_dau.mp3',
+            image: './assets/img/dung_lam_trai_tym_anh_dau.jpg',
+        }, {
+            name: '3 Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
             image: './assets/img/noi_nay_co_anh.jpg',
         }, {
-            name: 'Nơi này có anh',
+            name: '4 Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
             image: './assets/img/noi_nay_co_anh.jpg',
         }, {
-            name: 'Nơi này có anh',
+            name: '5 Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
             image: './assets/img/noi_nay_co_anh.jpg',
         }, {
-            name: 'Nơi này có anh',
+            name: '6 Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
             image: './assets/img/noi_nay_co_anh.jpg',
         }, {
-            name: 'Nơi này có anh',
+            name: '7 Nơi này có anh',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
             image: './assets/img/noi_nay_co_anh.jpg',
         }, {
-            name: 'Nơi này có anh',
-            singer: 'Sơn Tùng M-TP',
-            path: './assets/music/noi_nay_co_anh.mp3',
-            image: './assets/img/noi_nay_co_anh.jpg',
-        }, {
-            name: 'Nơi này có anh',
+            name: '8 Nơi này có anh ',
             singer: 'Sơn Tùng M-TP',
             path: './assets/music/noi_nay_co_anh.mp3',
             image: './assets/img/noi_nay_co_anh.jpg',
@@ -93,6 +96,7 @@ const app = {
         $('.playlist').innerHTML = htmls.join('\n');
     },
 
+    // Định nghĩa currentSong
     defineProperties: function () {
         Object.defineProperty(this, 'currentSong', {
             get: function () {
@@ -102,10 +106,24 @@ const app = {
     },
 
 
-    // scroll to top
+    // Xử lí các events
     handleEvents: function () {
         const cdWidth = cd.offsetWidth;
         const _this = this;
+
+        //Xử lí CD quay và dừng
+        const cdThumbAnimate = cdThumb.animate([
+            {transform: 'rotate(360deg)'}
+        ], {
+            duration: 10000, // 10s
+            iterations: Infinity
+        })
+
+        cdThumbAnimate.pause();
+
+        console.log(cdThumbAnimate);
+        
+
 
         // Xử lí phóng to, thu nhỏ CD
         document.onscroll = function () {
@@ -118,6 +136,7 @@ const app = {
             cd.style.opacity = newCdWidth / cdWidth;
 
         };
+
 
         //Xử lí khi click vào nút play
         playBtn.onclick = function () {
@@ -134,6 +153,7 @@ const app = {
         audio.onplay = function(){
             _this.isPlaying = true;
             player.classList.add("playing");
+            cdThumbAnimate.play();
             
         }
         
@@ -141,6 +161,7 @@ const app = {
         audio.onpause = function(){
             _this.isPlaying = false;
             player.classList.remove("playing");
+            cdThumbAnimate.pause();
             
         }
 
@@ -157,6 +178,26 @@ const app = {
             const seekTime = audio.duration  / 100 * e.target.value ;
             audio.currentTime = seekTime;
         }
+
+        //Xử lí khi onclick vòa nextBtn
+        nextBtn.onclick = function(){
+            _this.nextSong();
+            audio.play();
+        }
+
+
+        //Xử lí khi onclick vào preBtn
+        preBtn.onclick = function(){
+            _this.preSong();
+            audio.play();
+        }
+
+        //Xử lí khi onclick vào random
+        randomBtn.onclick = function(){
+            currentIndex = Math.random()*
+
+            this.loadCurrentSong()
+        }
     },
 
     loadCurrentSong: function () {
@@ -165,10 +206,31 @@ const app = {
         cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
         audio.src = this.currentSong.path;
         audio.load();
-
-        
     },
 
+    //Nút next song
+    nextSong: function (){
+        this.currentIndex++
+        console.log('check',this.currentIndex , this.songs.length - 1);
+        
+        if(this.currentIndex >= this.songs.length ){
+            this.currentIndex = 0;
+        }
+
+        this.loadCurrentSong()
+    },
+
+    //Nút pre song
+    preSong: function (){
+        this.currentIndex--
+        console.log('check',this.currentIndex , this.songs.length - 1);
+        
+        if(this.currentIndex == -1 ){
+            this.currentIndex = this.songs.length -1 ;
+        }
+ 
+        this.loadCurrentSong()
+    }, 
 
     start: function () {
         //Định nghĩa các thuộc tính cho object
@@ -183,7 +245,7 @@ const app = {
         //Render bài hát
         this.render();
     }
-    // 
 }
 
 app.start();
+//57:57
