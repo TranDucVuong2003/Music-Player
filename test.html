@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toggle Color Example</title>
+  <style>
+    .bg-white {
+      background-color: white;
+    }
+    .bg-blue {
+      background-color: lightblue;
+    }
+  </style>
+</head>
+<body>
+
+  <button onclick="toggleColor()">Đổi Màu Nền</button>
+  <div id="box" class="bg-white" style="width: 100px; height: 100px;"></div>
+
+  <script>
+    function toggleColor() {
+      const box = document.getElementById("box");
+      box.classList.toggle("bg-blue");
+    }
+  </script>
+
+</body>
+</html>
