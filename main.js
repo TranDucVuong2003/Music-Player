@@ -14,6 +14,8 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
+const PLAYER_STORAGE_KEY = 'Music-Player'
+
 const player = $('.player');
 const heading = $('header h2');
 const cdThumb = $('.cd-thumb');
@@ -25,6 +27,7 @@ const nextBtn = $('.btn-next');
 const preBtn = $('.btn-prev');
 const randomBtn = $('.btn-random')
 const repeatBtn = $('.btn-repeat')
+const playlist = $('.playlist');
 
 
 const app = {
@@ -33,7 +36,11 @@ const app = {
     isPlaying: false,
     isRandom: false,
     isReapeat: false,
-
+    config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
+    setConfig: function(key, value){
+        this.config[key] = value;
+        localStorage.setItem(PLAYER_STORAGE_KEY, JSON.stringify(this.config) )
+    },
     songs: [
         {
             name: ' Nơi này có Vương',
@@ -80,9 +87,9 @@ const app = {
 
     // Render song
     render: function () {
-        const htmls = this.songs.map((song) => {
+        const htmls = this.songs.map((song, index) => {
             return `
-            <div class="song">
+            <div class="song ${index == this.currentIndex ? 'active' :''}" data-index = "${index}">
                 <div class="thumb" style="background-image: url('${song.image}')">
             </div>
 
@@ -97,7 +104,7 @@ const app = {
         </div>
         `
         })
-        $('.playlist').innerHTML = htmls.join('\n');
+        playlist.innerHTML = htmls.join('\n');
     },
 
     // Định nghĩa currentSong
@@ -133,8 +140,6 @@ const app = {
         document.onscroll = function () {
             const scrollTop = window.scrollY || document.documentElement.scrollTop;
             const newCdWidth = cdWidth - scrollTop;
-
-
 
             cd.style.width = newCdWidth > 0 ? newCdWidth + 'px' : 0;
             cd.style.opacity = newCdWidth / cdWidth;
@@ -190,6 +195,8 @@ const app = {
             } else {
                 _this.nextSong();
             }
+            _this.render();
+            _this.scrollToActiveSong();
             audio.play();
         }
 
@@ -201,12 +208,15 @@ const app = {
             } else {
                 _this.preSong();
             }
+            _this.render();
+            _this.scrollToActiveSong();
             audio.play();
         }
 
         //Xử lí khi onclick vào random
         randomBtn.onclick = function () {
             _this.isRandom = !_this.isRandom;
+            _this.setConfig('isRandom', _this.isRandom)
             randomBtn.classList.toggle('active', _this.isRandom)
 
         }
@@ -225,9 +235,35 @@ const app = {
         //Xử lí khi onclick vào repeat
         repeatBtn.onclick = function () {
             _this.isReapeat = !_this.isReapeat;
+            _this.setConfig('isReapeat', _this.isReapeat )
             repeatBtn.classList.toggle('active', _this.isReapeat)
         }
 
+
+        //Lắng nghe hành vi click vào song
+        playlist.onclick = function(e){
+            const songNode = e.target.closest('.song:not(.active )');
+            if( songNode  || e.target.closest('.option ') )
+            {
+                //Xử lí khi click vào song
+                if( songNode){
+                    _this.currentIndex = songNode.dataset.index;
+                    // console.log(typeof _this.currentIndex);
+                    
+                    // console.log(typeof songNode.dataset.index, typeof _this.currentIndex);
+                    
+                    _this.render();
+                    _this.loadCurrentSong()  
+                    audio.play();                  
+                }          
+                
+                
+                //Xử lí khi click vào song option
+                if(e.target.closest('.option ')){
+                    //
+                }
+            }
+        }
     },
 
 
@@ -242,6 +278,16 @@ const app = {
         cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
         audio.src = this.currentSong.path;
         audio.load();
+    },
+
+    //Kéo tới vị trị song đang được active
+    scrollToActiveSong: function(){
+        setTimeout(()=> {
+            $('.song.active').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            })
+        }, 200)
     },
 
 
@@ -303,4 +349,4 @@ const app = {
 }
 
 app.start();
-//57:57
+//1:37:00
