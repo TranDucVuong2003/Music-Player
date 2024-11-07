@@ -37,9 +37,9 @@ const app = {
     isRandom: false,
     isReapeat: false,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
-    setConfig: function(key, value){
+    setConfig: function (key, value) {
         this.config[key] = value;
-        localStorage.setItem(PLAYER_STORAGE_KEY, JSON.stringify(this.config) )
+        localStorage.setItem(PLAYER_STORAGE_KEY, JSON.stringify(this.config))
     },
     songs: [
         {
@@ -89,7 +89,7 @@ const app = {
     render: function () {
         const htmls = this.songs.map((song, index) => {
             return `
-            <div class="song ${index == this.currentIndex ? 'active' :''}" data-index = "${index}">
+            <div class="song ${index == this.currentIndex ? 'active' : ''}" data-index = "${index}">
                 <div class="thumb" style="background-image: url('${song.image}')">
             </div>
 
@@ -235,31 +235,30 @@ const app = {
         //Xử lí khi onclick vào repeat
         repeatBtn.onclick = function () {
             _this.isReapeat = !_this.isReapeat;
-            _this.setConfig('isReapeat', _this.isReapeat )
+            _this.setConfig('isReapeat', _this.isReapeat)
             repeatBtn.classList.toggle('active', _this.isReapeat)
         }
 
 
         //Lắng nghe hành vi click vào song
-        playlist.onclick = function(e){
+        playlist.onclick = function (e) {
             const songNode = e.target.closest('.song:not(.active )');
-            if( songNode  || e.target.closest('.option ') )
-            {
+            if (songNode || e.target.closest('.option ')) {
                 //Xử lí khi click vào song
-                if( songNode){
+                if (songNode) {
                     _this.currentIndex = songNode.dataset.index;
                     // console.log(typeof _this.currentIndex);
-                    
+
                     // console.log(typeof songNode.dataset.index, typeof _this.currentIndex);
-                    
+
                     _this.render();
-                    _this.loadCurrentSong()  
-                    audio.play();                  
-                }          
-                
-                
+                    _this.loadCurrentSong()
+                    audio.play();
+                }
+
+
                 //Xử lí khi click vào song option
-                if(e.target.closest('.option ')){
+                if (e.target.closest('.option ')) {
                     //
                 }
             }
@@ -281,8 +280,8 @@ const app = {
     },
 
     //Kéo tới vị trị song đang được active
-    scrollToActiveSong: function(){
-        setTimeout(()=> {
+    scrollToActiveSong: function () {
+        setTimeout(() => {
             $('.song.active').scrollIntoView({
                 behavior: 'smooth',
                 block: 'center'
@@ -345,6 +344,11 @@ const app = {
 
         //Render bài hát
         this.render();
+        this.isRandom = this.config.isRandom || false;
+        this.isReapeat = this.config.isReapeat || false;
+
+        randomBtn.classList.toggle('active', this.isRandom);
+        repeatBtn.classList.toggle('active', this.isReapeat);
     }
 }
 
